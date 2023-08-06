@@ -20,7 +20,7 @@ body {
     color: #8097A6;
   }
   
-  .attribution {
+  /* .attribution {
     position: absolute;
     right: 20px;
     bottom: 20px;
@@ -30,7 +30,7 @@ body {
     border-radius: 5px;
     color: #1D2326;
     box-shadow: 1px 2px 5px 1px rgba(255,255,255, 0.2);
-  }
+  } */
   
   a {
     color: white;
