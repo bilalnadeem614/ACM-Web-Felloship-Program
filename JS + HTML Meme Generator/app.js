@@ -1,46 +1,76 @@
 function clearAll() {
-
+  const memeContainer = document.querySelector('.meme-content');
+  const jokeContainer = document.querySelector('.joke-content');
+  const quoteContainer = document.querySelector('.quote-content');
+  const riddleContainer = document.querySelector('.riddle-content');
+  
+  memeContainer.innerHTML = '';
+  jokeContainer.innerHTML = '';
+  quoteContainer.innerHTML = '';
+  riddleContainer.innerHTML = '';
 }
 
-/**
-* TODO: 
-* - Show a random Meme in the correct location
-* - Never show more than 1 meme at a time
-*/
 function showMeme() {
   // Value is a string representing image URL
   const randomMemeUrl = getRandomData('memes');
+  const container = document.querySelector('.meme-content');
+  const newImg = document.createElement('img');
+  newImg.setAttribute('src', randomMemeUrl);
+  
+  clearAll();
+  
+  container.appendChild(newImg);
 }
 
-/**
-* TODO: 
-* - Show a random joke in the correct location
-* - Never show more than 1 joke at a time
-*/
 function showJoke() {
   // Value is a string representing the joke
   const randomJokeText = getRandomData('jokes');
+  
+  const newP = document.createElement('p');
+  newP.textContent = randomJokeText;
+  
+  clearAll();
+  
+  document.querySelector('.joke-content').appendChild(newP);
 }
 
-/**
-* TODO: 
-* - Show a random quote in the correct location
-* - Never show more than 1 quote at a time
-*/
 function showQuote() {
   // Value should be in format: { quote: '', author: '' }
   const randomQuote = getRandomData('quotes');
+  
+  const quote = document.createElement('p');
+  const author = document.createElement('p');
+  quote.textContent = randomQuote.quote;
+  author.textContent = "- " + randomQuote.author;
+  
+  clearAll();
+  
+  const container = document.querySelector('.quote-content'); 
+  container.appendChild(quote);
+  container.appendChild(author);
 }
 
-/**
-* TODO: 
-* - Show a random riddle in the correct location
-* - Never show more than 1 riddle at a time
-* - Always hide the riddle's answer initially
-*/
+
 function showRiddle() {
   // Value should be in format: { question: '', answer: '' }
   const randomRiddle = getRandomData('riddles');
+  
+  const { question, answer } = randomRiddle;
+  
+  const questionElem = document.createElement('p');
+  questionElem.textContent = question;
+  
+  const answerElem = document.createElement('p');
+  answerElem.textContent = 'The answer is: ' + answer;
+  answerElem.setAttribute('id', 'riddle-answer');
+  answerElem.hidden = true;
+  
+  const container = document.querySelector('.riddle-content');
+  
+  clearAll();
+  
+  container.appendChild(questionElem);
+  container.appendChild(answerElem);
 }
 
 /**
@@ -51,6 +81,18 @@ function showRiddle() {
 * - If there is a riddle shown but no answer, unhide the answer!
 */
 function revealAnswers() {
+  const riddleContainer = document.querySelector('.riddle-content');
+  const riddle = riddleContainer.querySelector('p');
+  const answer = document.querySelector('#riddle-answer');
+  
+  // console.log(answer.hidden);
+  if (riddle && answer.hidden) {
+    answer.hidden = false;
+  } else if (riddle) {
+    alert('The answer is already revealed!')
+  } else {
+    alert('There is no riddle to reveal the answer to!')
+  }
   
 }
 
@@ -130,3 +172,4 @@ const data = {
   quotes,
   riddles
 };
+
