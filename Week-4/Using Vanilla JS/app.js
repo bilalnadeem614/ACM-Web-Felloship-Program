@@ -1,35 +1,75 @@
 //All selected HTML elemnts
 
-const App = {
-    $: {
-    menu: document.querySelector('[data-id="menu"]'),
-    menuItems: document.querySelector('[data-id="menu-items"]'),
-    resetBtn: document.querySelector('[data-id="reset-btn"]'),
-    newRoundBtn: document.querySelector('[data-id="new-round-btn"]'),
-    squares: document.querySelectorAll('[data-id="square"]'),
-    
-    },
+import Store from "./store.js";
+import View from "./view.js";
 
-    init () {
-        App.$.menu.addEventListener("click", (event) => {
-            App.$.menuItems.classList.toggle("hidden");
-        });
+// Our players "config" - defines icons, colors, name, etc.
+const players = [
+  {
+    id: 1,
+    name: "Player 1",
+    iconClass: "fa-x",
+    colorClass: "turquoise",
+  },
+  {
+    id: 2,
+    name: "Player 2",
+    iconClass: "fa-o",
+    colorClass: "yellow",
+  },
+];
 
-        App.$.resetBtn.addEventListener("click", (event) => {
-           console.log("Reset the Game")
-        });
-        
-        App.$.newRoundBtn.addEventListener("click", (event) => {
-            console.log("New round Added")
-        });
+// MVC pattern
+function init() {
+  // "Model"
+  const store = new Store("game-state-key", players);
 
-        App.$.squares.forEach(square => {
-            square.addEventListener("click", (event) => {
-                console.log(`Square with ID ${event.target.id} was clicked`)
-            });
-        });
-    },
-};
+  // "View"
+  const view = new View();
 
-window.addEventListener('load',App.init)
+  // "Controller" logic (event listeners + handlers)
 
+  /**
+   * Listen for changes to the game state, re-render view when change occurs.
+   *
+   * The `statechange` event is a custom Event defined in the Store class
+   */
+  store.addEventListener("statechange", () => {
+    view.render(store.game, store.stats);
+  });
+
+  /**
+   * When 2 players are playing from different browser tabs, listen for changes
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event
+   */
+  window.addEventListener("storage", () => {
+    console.log("State changed from another tab");
+    view.render(store.game, store.stats);
+  });
+
+  // When the HTML document first loads, render the view based on the current state.
+  view.render(store.game, store.stats);
+
+  view.bindGameResetEvent((event) => {
+    store.reset();
+  });
+
+  view.bindNewRoundEvent((event) => {
+    store.newRound();
+  });
+
+  view.bindPlayerMoveEvent((square) => {
+    const existingMove = store.game.moves.find(
+      (move) => move.squareId === +square.id
+    );
+
+    if (existingMove) {
+      return;
+    }
+
+    // Advance to the next state by pushing a move to the moves array
+    store.playerMove(+square.id);
+  });
+}
+
+window.addEventListener("load", init);
