@@ -70,7 +70,6 @@ button:hover {
 
 /*Turn of Player*/
 .turn {
-  color: var(--yellow);
   grid-column-start: 1;
   grid-column-end: 3;
   align-self: center;
@@ -165,9 +164,9 @@ button:hover {
 @media (min-width: 768px) {
   .grid {
     width: 490px;
-    grid-template-columns: repeat(3, 150px);
-    grid-template-rows: 50px repeat(3, 150px) 60px;
-    gap: 20px;
+    grid-template-columns: repeat(3, 110px);
+    grid-template-rows: 50px repeat(3, 110px) 60px;
+    gap: 15px;
   }
 }
 
@@ -213,6 +212,7 @@ button:hover {
 footer {
   color: white;
   margin-top: 50px;
+  margin-right: 125px;
 }
 
 footer p {
