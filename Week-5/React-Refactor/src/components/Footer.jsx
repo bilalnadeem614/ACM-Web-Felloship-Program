@@ -9,7 +9,7 @@ export default function Footer() {
         <a href="https://twitter.com/Ivan00sto">@Ivan00Sto</a>
       </p>
 
-      <p>
+      {/* <p>
         Refactored by
         <a
           href="https://twitter.com/zg_dev"
@@ -17,7 +17,12 @@ export default function Footer() {
         >
           @zg_dev
         </a>
-      </p>
+      </p> */}
+
+<p>
+      Refactored by
+      <a href="https://twitter.com/bilalnadeem614" target="_blank" style={{ color: "var(--turquoise)" }}>@bilalnadeem614</a>
+    </p>
     </footer>
   );
 }
